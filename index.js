@@ -13,8 +13,7 @@ const basicArray = [
 ];
 let exerciceArray = [];
 
-// Get Stored exercices array
-
+// Get stored exercices array
 (() => {
   if (localStorage.exercices) {
     exerciceArray = JSON.parse(localStorage.exercices);
@@ -34,7 +33,7 @@ class Exercice {
     this.seconds = this.seconds < 10 ? "0" + this.seconds : this.seconds;
 
     setTimeout(() => {
-      if (this.minutes === 0 && this.seconds == "00") {
+      if (this.minutes === 0 && this.seconds === "00") {
         this.index++;
         this.ring();
         if (this.index < exerciceArray.length) {
@@ -55,12 +54,11 @@ class Exercice {
     }, 10);
 
     return (main.innerHTML = `
-     <div class="exercice-container">
-       <p>${this.minutes}:${this.seconds}</p>
-       <img src="./img/${exerciceArray[this.index].pic}.png" />
-       <div>${this.index + 1}/${exerciceArray.length}</div>
-     </div>
-    `);
+      <div class="exercice-container">
+        <p>${this.minutes}:${this.seconds}</p>
+        <img src="./img/${exerciceArray[this.index].pic}.png" />
+        <div>${this.index + 1}/${exerciceArray.length}</div>
+      </div>`);
   }
 
   ring() {
@@ -143,15 +141,15 @@ const page = {
       .map(
         (exo) =>
           `
-          <li>
-            <div class="card-header">
-                <input type="number" id=${exo.pic} min="1" max="10" value=${exo.min}>
-                <span>min</span>
-            </div>
-            <img src="./img/${exo.pic}.png" />
-            <i class="fas fa-arrow-alt-circle-left arrow" data-pic=${exo.pic}></i>
-            <i class="fas fa-times-circle deleteBtn" data-pic=${exo.pic}></i>
-          <li>
+        <li>
+          <div class="card-header">
+            <input type="number" id=${exo.pic} min="1" max="10" value=${exo.min}>
+            <span>min</span>
+          </div>
+          <img src="./img/${exo.pic}.png" />
+          <i class="fas fa-arrow-alt-circle-left arrow" data-pic=${exo.pic}></i>
+          <i class="fas fa-times-circle deleteBtn" data-pic=${exo.pic}></i>
+        </li>
       `
       )
       .join("");
@@ -161,7 +159,6 @@ const page = {
       "<ul>" + mapArray + "</ul>",
       "<button id='start'>Commencer<i class='far fa-play-circle'></i></button>"
     );
-
     utils.handleEventMinutes();
     utils.handleEventArrow();
     utils.deleteItem();
@@ -171,20 +168,18 @@ const page = {
 
   routine: function () {
     const exercice = new Exercice();
+
     utils.pageContent("Routine", exercice.updateCountdown(), null);
   },
 
   finish: function () {
     utils.pageContent(
-      "C'est terminer",
+      "C'est terminé !",
       "<button id='start'>Recommencer</button>",
-      "<button id='reboot' class='btn-reboot'>Réinitialiser <i class='fas fa-time-circle'></i></button>"
+      "<button id='reboot' class='btn-reboot'>Réinintialiser <i class='fas fa-times-circle'></i></button>"
     );
-
     start.addEventListener("click", () => this.routine());
-    reboot.addEventListener("click", () => {
-      utils.reboot();
-    });
+    reboot.addEventListener("click", () => utils.reboot());
   },
 };
 
